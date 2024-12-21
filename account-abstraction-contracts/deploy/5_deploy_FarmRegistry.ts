@@ -3,19 +3,25 @@ import { DeployFunction } from 'hardhat-deploy/types'
 
 const deployFarmRegistry: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deployer } = await hre.getNamedAccounts()
+  const { deploy, get } = hre.deployments
 
-  const productRegistry = await hre.deployments.get('ProductRegistry')
-  const ret = await hre.deployments.deploy('FarmRegistry', {
+  // Get ProductRegistry address
+  const productRegistry = await get('ProductRegistry')
+  console.log('ProductRegistry address:', productRegistry.address)
+
+  console.log('Deploying FarmRegistry with account:', deployer)
+
+  const farmRegistry = await deploy('FarmRegistry', {
     from: deployer,
     args: [productRegistry.address],
     log: true,
-    gasLimit: 8000000,
-    waitConfirmations: 1
+    waitConfirmations: 1,
   })
-  
-  console.log('==FarmRegistry addr=', ret.address)
+
+  console.log('FarmRegistry deployed to:', farmRegistry.address)
+  // Remove return statement hoặc return void/boolean
 }
 
 deployFarmRegistry.tags = ['FarmRegistry']
-deployFarmRegistry.dependencies = ['ProductRegistry'] 
+deployFarmRegistry.dependencies = ['ProductRegistry']
 export default deployFarmRegistry

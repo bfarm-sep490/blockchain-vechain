@@ -1,70 +1,56 @@
-import { HardhatRuntimeEnvironment } from 'hardhat/types'
-import { DeployFunction } from 'hardhat-deploy/types'
-import { Contract } from 'ethers'
+import { HardhatRuntimeEnvironment } from "hardhat/types";
+import { DeployFunction } from "hardhat-deploy/types";
+import type { FarmRegistry, ProductRegistry } from "../typechain-types";
 
-const initSupplyChain: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
-    const { owner } = await hre.getNamedAccounts()
-    
-    const farmRegistry = await hre.ethers.getContract('FarmRegistry') as Contract
-    const productRegistry = await hre.ethers.getContract('ProductRegistry') as Contract
+const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
+  const { owner } = await hre.getNamedAccounts();
+  const { ethers } = hre;
 
-    console.log('Initializing supply chain contracts...')
+  try {
+    // Get deployed contracts with proper typing
+    const farmRegistry = await ethers.getContract<FarmRegistry>(
+      "FarmRegistry",
+      owner
+    );
+    const productRegistry = await ethers.getContract<ProductRegistry>(
+      "ProductRegistry",
+      owner
+    );
 
-    try {
-        // Register farm with gas limit & delegator
-        const farmTx = await farmRegistry.registerFarm(
-            owner,
-            "Nông Trại Ackerman",
-            "Đà Lạt, Lâm Đồng",
-            ["VietGAP", "Organic"],
-            {
-                gasLimit: 8000000,
-                delegator: {
-                    delegatorUrl: "https://sponsor-testnet.vechain.energy/by/769"
-                }
-            }
-        )
-        await farmTx.wait()
-        console.log('Sample farm registered')
+    console.log("Registering farm...");
+    const farmTx = await farmRegistry.registerFarm(
+      owner,
+      "Nông Trại Xanh",
+      "Đà Lạt, Lâm Đồng",
+      ["VietGAP", "Organic", "GlobalGAP", "UTZ"],
+    );
+    await farmTx.wait();
 
-        // Create product batch with gas limit & delegator
-        const productInfo = {
-            farmId: 1,
-            productType: "Cà Chua Cherry",
-            quantity: 1000,
-            unit: "kg",
-            harvestDate: Math.floor(Date.now() / 1000),
-            certifications: ["Organic"],
-            additionalInfo: "Canh tác hữu cơ, không thuốc trừ sâu",
-            status: 0,
-            supplyChainActors: [owner]
-        }
-        
-        const productTx = await productRegistry.createProductBatch(
-            productInfo,
-            {
-                gasLimit: 8000000,
-                delegator: {
-                    delegatorUrl: "https://sponsor-testnet.vechain.energy/by/769"
-                }
-            }
-        )
-        await productTx.wait()
-        console.log('Sample product batch created')
+    console.log("Creating product batch...");
+    const productInfo = {
+      farmId: 1n,
+      productType: "Cà phê Arabica",
+      quantity: 1000n,
+      unit: "kg",
+      harvestDate: BigInt(Math.floor(Date.now() / 1000)),
+      certifications: ["Organic"] as string[],
+      additionalInfo: "Canh tác hữu cơ, không thuốc trừ sâu",
+      status: 0,
+      supplyChainActors: [owner] as string[],
+    };
 
-        // Get farm and product info
-        const farmInfo = await farmRegistry.getFarmInfo(1)
-        const productBatch = await productRegistry.getProductBatch(1)
-        
-        console.log('Farm Info:', farmInfo)
-        console.log('Product Batch:', productBatch)
-        
-    } catch (error) {
-        console.error('Error during initialization:', error)
-        throw error
-    }
-}
+    const productTx = await productRegistry.createProductBatch(productInfo);
+    await productTx.wait();
 
-initSupplyChain.tags = ['SupplyChain', 'Init']
-initSupplyChain.dependencies = ['FarmRegistry', 'ProductRegistry']
-export default initSupplyChain
+    return true;
+  } catch (error) {
+    console.error("Error during initialization:", error);
+    return false;
+  }
+};
+
+func.id = "init_supply_chain";
+func.tags = ["Init"];
+func.dependencies = ["FarmRegistry", "ProductRegistry"];
+
+export default func;

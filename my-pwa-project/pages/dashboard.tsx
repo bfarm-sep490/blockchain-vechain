@@ -5,6 +5,7 @@ import { links } from '@/lib/links'
 import FarmRegistryABI from '@/deployments/vechain_testnet/FarmRegistry.json'
 import ProductRegistryABI from '@/deployments/vechain_testnet/ProductRegistry.json'
 import BlockchainDataDisplay from '@/components/blockchain-data-display'
+import BlockchainUpdate from '@/components/blockchain-update'
 
 const Dashboard = () => {
 	// You can also import other linking methods, like linkWallet, linkEmail, linkDiscord, etc.
@@ -40,6 +41,12 @@ const Dashboard = () => {
 				Supply Chain App
 				</p>
 				<BlockchainDataDisplay />
+			</Section>
+			<Section>
+				<p className='text-md mt-8 font-bold uppercase text-gray-700'>
+					Product Creation
+				</p>
+				<BlockchainUpdate />
 			</Section>
 			<Section>
 				<p className='text-md mt-8 font-bold uppercase text-gray-700'>
