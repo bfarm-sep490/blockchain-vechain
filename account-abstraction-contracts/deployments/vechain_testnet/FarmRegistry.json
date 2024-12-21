@@ -1,0 +1,374 @@
+{
+  "address": "0x2263d5D6344f4ce0c3B6af9A9cD73027baBb82C8",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_productRegistryAddress",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "farmId",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        }
+      ],
+      "name": "FarmRegistered",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "farmId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "bool",
+          "name": "isActive",
+          "type": "bool"
+        }
+      ],
+      "name": "FarmStatusUpdated",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "farms",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "internalType": "string",
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "location",
+          "type": "string"
+        },
+        {
+          "internalType": "bool",
+          "name": "isActive",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "farmId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getFarmInfo",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "address",
+              "name": "owner",
+              "type": "address"
+            },
+            {
+              "internalType": "string",
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "location",
+              "type": "string"
+            },
+            {
+              "internalType": "string[]",
+              "name": "certifications",
+              "type": "string[]"
+            },
+            {
+              "internalType": "bool",
+              "name": "isActive",
+              "type": "bool"
+            }
+          ],
+          "internalType": "struct FarmRegistry.Farm",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "nextFarmId",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "productRegistry",
+      "outputs": [
+        {
+          "internalType": "contract IProductRegistry",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "internalType": "string",
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "location",
+          "type": "string"
+        },
+        {
+          "internalType": "string[]",
+          "name": "certifications",
+          "type": "string[]"
+        }
+      ],
+      "name": "registerFarm",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "farmId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "isActive",
+          "type": "bool"
+        }
+      ],
+      "name": "updateFarmStatus",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0xf4caa8ac2088d11e25c07b17d9f4664a67e624d50b7022a2bcd2d6842e0a1a24",
+  "receipt": {
+    "to": null,
+    "from": "0x7C8285922f532EA357ba82E2c561C8e5fEE6E9f0",
+    "contractAddress": "0x2263d5D6344f4ce0c3B6af9A9cD73027baBb82C8",
+    "transactionIndex": 1,
+    "gasUsed": "966430",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0x01385db2349194cc7ac4004048df55bc4d16f8d81ca68a62338621d3dc12003f",
+    "transactionHash": "0xf4caa8ac2088d11e25c07b17d9f4664a67e624d50b7022a2bcd2d6842e0a1a24",
+    "logs": [
+      {
+        "transactionIndex": 1,
+        "blockNumber": 20471218,
+        "transactionHash": "0xf4caa8ac2088d11e25c07b17d9f4664a67e624d50b7022a2bcd2d6842e0a1a24",
+        "address": "0x2263d5D6344f4ce0c3B6af9A9cD73027baBb82C8",
+        "topics": [
+          "0xb35bf4274d4295009f1ec66ed3f579db287889444366c03d3a695539372e8951"
+        ],
+        "data": "0x0000000000000000000000007c8285922f532ea357ba82e2c561c8e5fee6e9f0",
+        "logIndex": 0,
+        "blockHash": "0x01385db2349194cc7ac4004048df55bc4d16f8d81ca68a62338621d3dc12003f"
+      }
+    ],
+    "blockNumber": 20471218,
+    "cumulativeGasUsed": "0",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [
+    "0x903A7Dc88472e06DEe064186CbB037E4C79cfBEF"
+  ],
+  "numDeployments": 1,
+  "solcInputHash": "cd07ffb4dfed773f41b36cefc5966db8",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.24+commit.e11b9ed9\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_productRegistryAddress\",\"type\":\"address\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"farmId\",\"type\":\"uint256\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"}],\"name\":\"FarmRegistered\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"farmId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"isActive\",\"type\":\"bool\"}],\"name\":\"FarmStatusUpdated\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"farms\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"location\",\"type\":\"string\"},{\"internalType\":\"bool\",\"name\":\"isActive\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"farmId\",\"type\":\"uint256\"}],\"name\":\"getFarmInfo\",\"outputs\":[{\"components\":[{\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"location\",\"type\":\"string\"},{\"internalType\":\"string[]\",\"name\":\"certifications\",\"type\":\"string[]\"},{\"internalType\":\"bool\",\"name\":\"isActive\",\"type\":\"bool\"}],\"internalType\":\"struct FarmRegistry.Farm\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"nextFarmId\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"productRegistry\",\"outputs\":[{\"internalType\":\"contract IProductRegistry\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"location\",\"type\":\"string\"},{\"internalType\":\"string[]\",\"name\":\"certifications\",\"type\":\"string[]\"}],\"name\":\"registerFarm\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"farmId\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"isActive\",\"type\":\"bool\"}],\"name\":\"updateFarmStatus\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/supply-chain/FarmRegistry.sol\":\"FarmRegistry\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":128},\"remappings\":[]},\"sources\":{\"contracts/interfaces/IProductRegistry.sol\":{\"content\":\"// SPDX-License-Identifier: GPL-3.0\\r\\npragma solidity ^0.8.0;\\r\\n\\r\\ninterface IProductRegistry {\\r\\n    enum ProductStatus {\\r\\n        Created,\\r\\n        InTransit,\\r\\n        AtDistributor,\\r\\n        AtRetailer,\\r\\n        Sold\\r\\n    }\\r\\n\\r\\n    struct ProductBatch {\\r\\n        uint256 farmId;\\r\\n        string productType;\\r\\n        uint256 quantity;\\r\\n        string unit;\\r\\n        uint256 harvestDate;\\r\\n        string[] certifications;\\r\\n        string additionalInfo;\\r\\n        ProductStatus status;\\r\\n        address[] supplyChainActors;\\r\\n    }\\r\\n\\r\\n    function createProductBatch(ProductBatch memory batch) external returns (uint256);\\r\\n    function updateProductStatus(uint256 batchId, ProductStatus status) external;\\r\\n    function addSupplyChainActor(uint256 batchId, address actor) external;\\r\\n    function getProductBatch(uint256 batchId) external view returns (ProductBatch memory);\\r\\n}\",\"keccak256\":\"0x8dd4e8650aa8688980877af030a54bf61ae94e4086f614c5f0bb41a23b9fe16f\",\"license\":\"GPL-3.0\"},\"contracts/supply-chain/FarmRegistry.sol\":{\"content\":\"// SPDX-License-Identifier: GPL-3.0\\r\\npragma solidity ^0.8.0;\\r\\n\\r\\nimport \\\"../interfaces/IProductRegistry.sol\\\";\\r\\n\\r\\ncontract FarmRegistry {\\r\\n    struct Farm {\\r\\n        address owner;\\r\\n        string name;\\r\\n        string location;\\r\\n        string[] certifications;\\r\\n        bool isActive;\\r\\n    }\\r\\n\\r\\n    mapping(uint256 => Farm) public farms;\\r\\n    uint256 public nextFarmId = 1;\\r\\n    IProductRegistry public productRegistry;\\r\\n\\r\\n    event FarmRegistered(uint256 indexed farmId, address indexed owner);\\r\\n    event FarmStatusUpdated(uint256 indexed farmId, bool isActive);\\r\\n\\r\\n    constructor(address _productRegistryAddress) {\\r\\n        productRegistry = IProductRegistry(_productRegistryAddress);\\r\\n    }\\r\\n\\r\\n    function registerFarm(\\r\\n        address owner,\\r\\n        string memory name,\\r\\n        string memory location,\\r\\n        string[] memory certifications\\r\\n    ) public returns (uint256) {\\r\\n        uint256 farmId = nextFarmId++;\\r\\n        farms[farmId] = Farm(owner, name, location, certifications, true);\\r\\n        emit FarmRegistered(farmId, owner);\\r\\n        return farmId;\\r\\n    }\\r\\n\\r\\n    function updateFarmStatus(uint256 farmId, bool isActive) public {\\r\\n        require(farmId < nextFarmId, \\\"Invalid farm ID\\\");\\r\\n        farms[farmId].isActive = isActive;\\r\\n        emit FarmStatusUpdated(farmId, isActive);\\r\\n    }\\r\\n\\r\\n    function getFarmInfo(uint256 farmId) public view returns (Farm memory) {\\r\\n        require(farmId < nextFarmId, \\\"Invalid farm ID\\\");\\r\\n        return farms[farmId];\\r\\n    }\\r\\n}\",\"keccak256\":\"0xd91c828da46ac23cbb7b910898e4cd2c9978762f6032866c3fdc645bc52e8084\",\"license\":\"GPL-3.0\"}},\"version\":1}",
+  "bytecode": "0x60806040526001805534801561001457600080fd5b50604051610d3d380380610d3d83398101604081905261003391610058565b600280546001600160a01b0319166001600160a01b0392909216919091179055610088565b60006020828403121561006a57600080fd5b81516001600160a01b038116811461008157600080fd5b9392505050565b610ca6806100976000396000f3fe608060405234801561001057600080fd5b50600436106100625760003560e01c80636844e85a146100675780637da470ea1461008357806387f042d0146100a65780638d47d579146100b9578063f23f4442146100d9578063fff218c3146100ee575b600080fd5b61007060015481565b6040519081526020015b60405180910390f35b610096610091366004610753565b610119565b60405161007a94939291906107b2565b6100706100b43660046108b3565b61025f565b6100cc6100c7366004610753565b610370565b60405161007a91906109de565b6100ec6100e7366004610aa0565b610615565b005b600254610101906001600160a01b031681565b6040516001600160a01b03909116815260200161007a565b600060208190529081526040902080546001820180546001600160a01b03909216929161014590610ad5565b80601f016020809104026020016040519081016040528092919081815260200182805461017190610ad5565b80156101be5780601f10610193576101008083540402835291602001916101be565b820191906000526020600020905b8154815290600101906020018083116101a157829003601f168201915b5050505050908060020180546101d390610ad5565b80601f01602080910402602001604051908101604052809291908181526020018280546101ff90610ad5565b801561024c5780601f106102215761010080835404028352916020019161024c565b820191906000526020600020905b81548152906001019060200180831161022f57829003601f168201915b5050506004909301549192505060ff1684565b600180546000918291908261027383610b0f565b909155506040805160a0810182526001600160a01b03898116825260208083018a81528385018a90526060840189905260016080850181905260008781529283905294909120835181546001600160a01b031916931692909217825551939450909290918201906102e49082610b87565b50604082015160028201906102f99082610b87565b506060820151805161031591600384019160209091019061068e565b50608091909101516004909101805460ff19169115159190911790556040516001600160a01b0387169082907f51497ac850e190daec6d2e49930c83deff86a28bf8a612806432c3e6dc58a84590600090a395945050505050565b6103ad6040518060a0016040528060006001600160a01b031681526020016060815260200160608152602001606081526020016000151581525090565b60015482106103d75760405162461bcd60e51b81526004016103ce90610c47565b60405180910390fd5b60008281526020818152604091829020825160a0810190935280546001600160a01b03168352600181018054919284019161041190610ad5565b80601f016020809104026020016040519081016040528092919081815260200182805461043d90610ad5565b801561048a5780601f1061045f5761010080835404028352916020019161048a565b820191906000526020600020905b81548152906001019060200180831161046d57829003601f168201915b505050505081526020016002820180546104a390610ad5565b80601f01602080910402602001604051908101604052809291908181526020018280546104cf90610ad5565b801561051c5780601f106104f15761010080835404028352916020019161051c565b820191906000526020600020905b8154815290600101906020018083116104ff57829003601f168201915b5050505050815260200160038201805480602002602001604051908101604052809291908181526020016000905b828210156105f657838290600052602060002001805461056990610ad5565b80601f016020809104026020016040519081016040528092919081815260200182805461059590610ad5565b80156105e25780601f106105b7576101008083540402835291602001916105e2565b820191906000526020600020905b8154815290600101906020018083116105c557829003601f168201915b50505050508152602001906001019061054a565b505050908252506004919091015460ff16151560209091015292915050565b60015482106106365760405162461bcd60e51b81526004016103ce90610c47565b60008281526020818152604091829020600401805460ff1916841515908117909155915191825283917f5fff238c1287a7b9af1c21c8da68e0c4bdc5b2849f626876285d516746813a76910160405180910390a25050565b8280548282559060005260206000209081019282156106d4579160200282015b828111156106d457825182906106c49082610b87565b50916020019190600101906106ae565b506106e09291506106e4565b5090565b808211156106e05760006106f88282610701565b506001016106e4565b50805461070d90610ad5565b6000825580601f1061071d575050565b601f01602090049060005260206000209081019061073b919061073e565b50565b5b808211156106e0576000815560010161073f565b60006020828403121561076557600080fd5b5035919050565b6000815180845260005b8181101561079257602081850181015186830182015201610776565b506000602082860101526020601f19601f83011685010191505092915050565b6001600160a01b03851681526080602082018190526000906107d69083018661076c565b82810360408401526107e8818661076c565b915050821515606083015295945050505050565b634e487b7160e01b600052604160045260246000fd5b604051601f8201601f1916810167ffffffffffffffff8111828210171561083b5761083b6107fc565b604052919050565b600082601f83011261085457600080fd5b813567ffffffffffffffff81111561086e5761086e6107fc565b610881601f8201601f1916602001610812565b81815284602083860101111561089657600080fd5b816020850160208301376000918101602001919091529392505050565b600080600080608085870312156108c957600080fd5b84356001600160a01b03811681146108e057600080fd5b935060208581013567ffffffffffffffff808211156108fe57600080fd5b61090a89838a01610843565b9550604088013591508082111561092057600080fd5b61092c89838a01610843565b9450606088013591508082111561094257600080fd5b818801915088601f83011261095657600080fd5b813581811115610968576109686107fc565b8060051b610977858201610812565b918252838101850191858101908c84111561099157600080fd5b86860192505b838310156109cd578235858111156109af5760008081fd5b6109bd8e89838a0101610843565b8352509186019190860190610997565b999c989b5096995050505050505050565b602080825282516001600160a01b0316828201528281015160a0604084015260009190610a0e60c085018261076c565b90506040850151601f1980868403016060870152610a2c838361076c565b60608801518782038301608089015280518083529194508501925084840190600581901b8501860160005b82811015610a835784878303018452610a7182875161076c565b95880195938801939150600101610a57565b5060808a015180151560a08b015296509998505050505050505050565b60008060408385031215610ab357600080fd5b8235915060208301358015158114610aca57600080fd5b809150509250929050565b600181811c90821680610ae957607f821691505b602082108103610b0957634e487b7160e01b600052602260045260246000fd5b50919050565b600060018201610b2f57634e487b7160e01b600052601160045260246000fd5b5060010190565b601f821115610b82576000816000526020600020601f850160051c81016020861015610b5f5750805b601f850160051c820191505b81811015610b7e57828155600101610b6b565b5050505b505050565b815167ffffffffffffffff811115610ba157610ba16107fc565b610bb581610baf8454610ad5565b84610b36565b602080601f831160018114610bea5760008415610bd25750858301515b600019600386901b1c1916600185901b178555610b7e565b600085815260208120601f198616915b82811015610c1957888601518255948401946001909101908401610bfa565b5085821015610c375787850151600019600388901b60f8161c191681555b5050505050600190811b01905550565b6020808252600f908201526e125b9d985b1a590819985c9b481251608a1b60408201526060019056fea2646970667358221220acd8ad70f73166d66fe83500ceea31511ddc65a05521dc1ebdb883a096c7389864736f6c63430008180033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100625760003560e01c80636844e85a146100675780637da470ea1461008357806387f042d0146100a65780638d47d579146100b9578063f23f4442146100d9578063fff218c3146100ee575b600080fd5b61007060015481565b6040519081526020015b60405180910390f35b610096610091366004610753565b610119565b60405161007a94939291906107b2565b6100706100b43660046108b3565b61025f565b6100cc6100c7366004610753565b610370565b60405161007a91906109de565b6100ec6100e7366004610aa0565b610615565b005b600254610101906001600160a01b031681565b6040516001600160a01b03909116815260200161007a565b600060208190529081526040902080546001820180546001600160a01b03909216929161014590610ad5565b80601f016020809104026020016040519081016040528092919081815260200182805461017190610ad5565b80156101be5780601f10610193576101008083540402835291602001916101be565b820191906000526020600020905b8154815290600101906020018083116101a157829003601f168201915b5050505050908060020180546101d390610ad5565b80601f01602080910402602001604051908101604052809291908181526020018280546101ff90610ad5565b801561024c5780601f106102215761010080835404028352916020019161024c565b820191906000526020600020905b81548152906001019060200180831161022f57829003601f168201915b5050506004909301549192505060ff1684565b600180546000918291908261027383610b0f565b909155506040805160a0810182526001600160a01b03898116825260208083018a81528385018a90526060840189905260016080850181905260008781529283905294909120835181546001600160a01b031916931692909217825551939450909290918201906102e49082610b87565b50604082015160028201906102f99082610b87565b506060820151805161031591600384019160209091019061068e565b50608091909101516004909101805460ff19169115159190911790556040516001600160a01b0387169082907f51497ac850e190daec6d2e49930c83deff86a28bf8a612806432c3e6dc58a84590600090a395945050505050565b6103ad6040518060a0016040528060006001600160a01b031681526020016060815260200160608152602001606081526020016000151581525090565b60015482106103d75760405162461bcd60e51b81526004016103ce90610c47565b60405180910390fd5b60008281526020818152604091829020825160a0810190935280546001600160a01b03168352600181018054919284019161041190610ad5565b80601f016020809104026020016040519081016040528092919081815260200182805461043d90610ad5565b801561048a5780601f1061045f5761010080835404028352916020019161048a565b820191906000526020600020905b81548152906001019060200180831161046d57829003601f168201915b505050505081526020016002820180546104a390610ad5565b80601f01602080910402602001604051908101604052809291908181526020018280546104cf90610ad5565b801561051c5780601f106104f15761010080835404028352916020019161051c565b820191906000526020600020905b8154815290600101906020018083116104ff57829003601f168201915b5050505050815260200160038201805480602002602001604051908101604052809291908181526020016000905b828210156105f657838290600052602060002001805461056990610ad5565b80601f016020809104026020016040519081016040528092919081815260200182805461059590610ad5565b80156105e25780601f106105b7576101008083540402835291602001916105e2565b820191906000526020600020905b8154815290600101906020018083116105c557829003601f168201915b50505050508152602001906001019061054a565b505050908252506004919091015460ff16151560209091015292915050565b60015482106106365760405162461bcd60e51b81526004016103ce90610c47565b60008281526020818152604091829020600401805460ff1916841515908117909155915191825283917f5fff238c1287a7b9af1c21c8da68e0c4bdc5b2849f626876285d516746813a76910160405180910390a25050565b8280548282559060005260206000209081019282156106d4579160200282015b828111156106d457825182906106c49082610b87565b50916020019190600101906106ae565b506106e09291506106e4565b5090565b808211156106e05760006106f88282610701565b506001016106e4565b50805461070d90610ad5565b6000825580601f1061071d575050565b601f01602090049060005260206000209081019061073b919061073e565b50565b5b808211156106e0576000815560010161073f565b60006020828403121561076557600080fd5b5035919050565b6000815180845260005b8181101561079257602081850181015186830182015201610776565b506000602082860101526020601f19601f83011685010191505092915050565b6001600160a01b03851681526080602082018190526000906107d69083018661076c565b82810360408401526107e8818661076c565b915050821515606083015295945050505050565b634e487b7160e01b600052604160045260246000fd5b604051601f8201601f1916810167ffffffffffffffff8111828210171561083b5761083b6107fc565b604052919050565b600082601f83011261085457600080fd5b813567ffffffffffffffff81111561086e5761086e6107fc565b610881601f8201601f1916602001610812565b81815284602083860101111561089657600080fd5b816020850160208301376000918101602001919091529392505050565b600080600080608085870312156108c957600080fd5b84356001600160a01b03811681146108e057600080fd5b935060208581013567ffffffffffffffff808211156108fe57600080fd5b61090a89838a01610843565b9550604088013591508082111561092057600080fd5b61092c89838a01610843565b9450606088013591508082111561094257600080fd5b818801915088601f83011261095657600080fd5b813581811115610968576109686107fc565b8060051b610977858201610812565b918252838101850191858101908c84111561099157600080fd5b86860192505b838310156109cd578235858111156109af5760008081fd5b6109bd8e89838a0101610843565b8352509186019190860190610997565b999c989b5096995050505050505050565b602080825282516001600160a01b0316828201528281015160a0604084015260009190610a0e60c085018261076c565b90506040850151601f1980868403016060870152610a2c838361076c565b60608801518782038301608089015280518083529194508501925084840190600581901b8501860160005b82811015610a835784878303018452610a7182875161076c565b95880195938801939150600101610a57565b5060808a015180151560a08b015296509998505050505050505050565b60008060408385031215610ab357600080fd5b8235915060208301358015158114610aca57600080fd5b809150509250929050565b600181811c90821680610ae957607f821691505b602082108103610b0957634e487b7160e01b600052602260045260246000fd5b50919050565b600060018201610b2f57634e487b7160e01b600052601160045260246000fd5b5060010190565b601f821115610b82576000816000526020600020601f850160051c81016020861015610b5f5750805b601f850160051c820191505b81811015610b7e57828155600101610b6b565b5050505b505050565b815167ffffffffffffffff811115610ba157610ba16107fc565b610bb581610baf8454610ad5565b84610b36565b602080601f831160018114610bea5760008415610bd25750858301515b600019600386901b1c1916600185901b178555610b7e565b600085815260208120601f198616915b82811015610c1957888601518255948401946001909101908401610bfa565b5085821015610c375787850151600019600388901b60f8161c191681555b5050505050600190811b01905550565b6020808252600f908201526e125b9d985b1a590819985c9b481251608a1b60408201526060019056fea2646970667358221220acd8ad70f73166d66fe83500ceea31511ddc65a05521dc1ebdb883a096c7389864736f6c63430008180033",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 9142,
+        "contract": "contracts/supply-chain/FarmRegistry.sol:FarmRegistry",
+        "label": "farms",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_mapping(t_uint256,t_struct(Farm)9137_storage)"
+      },
+      {
+        "astId": 9145,
+        "contract": "contracts/supply-chain/FarmRegistry.sol:FarmRegistry",
+        "label": "nextFarmId",
+        "offset": 0,
+        "slot": "1",
+        "type": "t_uint256"
+      },
+      {
+        "astId": 9148,
+        "contract": "contracts/supply-chain/FarmRegistry.sol:FarmRegistry",
+        "label": "productRegistry",
+        "offset": 0,
+        "slot": "2",
+        "type": "t_contract(IProductRegistry)8996"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      },
+      "t_array(t_string_storage)dyn_storage": {
+        "base": "t_string_storage",
+        "encoding": "dynamic_array",
+        "label": "string[]",
+        "numberOfBytes": "32"
+      },
+      "t_bool": {
+        "encoding": "inplace",
+        "label": "bool",
+        "numberOfBytes": "1"
+      },
+      "t_contract(IProductRegistry)8996": {
+        "encoding": "inplace",
+        "label": "contract IProductRegistry",
+        "numberOfBytes": "20"
+      },
+      "t_mapping(t_uint256,t_struct(Farm)9137_storage)": {
+        "encoding": "mapping",
+        "key": "t_uint256",
+        "label": "mapping(uint256 => struct FarmRegistry.Farm)",
+        "numberOfBytes": "32",
+        "value": "t_struct(Farm)9137_storage"
+      },
+      "t_string_storage": {
+        "encoding": "bytes",
+        "label": "string",
+        "numberOfBytes": "32"
+      },
+      "t_struct(Farm)9137_storage": {
+        "encoding": "inplace",
+        "label": "struct FarmRegistry.Farm",
+        "members": [
+          {
+            "astId": 9127,
+            "contract": "contracts/supply-chain/FarmRegistry.sol:FarmRegistry",
+            "label": "owner",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_address"
+          },
+          {
+            "astId": 9129,
+            "contract": "contracts/supply-chain/FarmRegistry.sol:FarmRegistry",
+            "label": "name",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_string_storage"
+          },
+          {
+            "astId": 9131,
+            "contract": "contracts/supply-chain/FarmRegistry.sol:FarmRegistry",
+            "label": "location",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_string_storage"
+          },
+          {
+            "astId": 9134,
+            "contract": "contracts/supply-chain/FarmRegistry.sol:FarmRegistry",
+            "label": "certifications",
+            "offset": 0,
+            "slot": "3",
+            "type": "t_array(t_string_storage)dyn_storage"
+          },
+          {
+            "astId": 9136,
+            "contract": "contracts/supply-chain/FarmRegistry.sol:FarmRegistry",
+            "label": "isActive",
+            "offset": 0,
+            "slot": "4",
+            "type": "t_bool"
+          }
+        ],
+        "numberOfBytes": "160"
+      },
+      "t_uint256": {
+        "encoding": "inplace",
+        "label": "uint256",
+        "numberOfBytes": "32"
+      }
+    }
+  }
+}
