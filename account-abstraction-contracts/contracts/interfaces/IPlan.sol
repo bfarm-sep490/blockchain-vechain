@@ -71,7 +71,7 @@ interface IPlanRegistry {
         string activity_type;
         uint256 land_id;
         date completed_date;
-        uint256 quantity; // Giả lập float bằng cách lưu với đơn vị 10^18
+        uint256 quantity;
         string unit;
         item[] items;
     }
@@ -87,7 +87,7 @@ interface IPlanRegistry {
         uint256 temperature;
         uint256 humidity;
         GTKitColor test_gt_kit_color;
-        uint256 quantity; // Giả lập float bằng cách lưu với đơn vị 10^18
+        uint256 quantity;
         string unit;
         uint256 percent_issue;
         string issue;
@@ -100,7 +100,7 @@ interface IPlanRegistry {
         uint256 land_id;
         date completed_date;
         item[] items;
-        uint256 quantity; // Giả lập float bằng cách lưu với đơn vị 10^18
+        uint256 quantity;
         string unit;
     }
 
