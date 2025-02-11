@@ -1,0 +1,40 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "contracts/interfaces/IPlan.sol": {
+      "content": "// SPDX-License-Identifier: GPL-3.0\npragma solidity ^0.8.0;\n\ninterface IPlanRegistry {\n    enum PlanStatus {\n        Cancelled,\n        InProgress,\n        Completed\n    }\n\n    enum GTKitColor {\n        Green,\n        Yellow,\n        Red\n    }\n\n    struct date {\n        uint256 day;\n        uint256 month;\n        uint256 year;\n        uint256 timestamp;\n    }\n\n    struct item {\n        uint256 item_id;\n        uint256 quantity;\n    }\n\n    struct fertilizer {\n        uint256 fertilizer_id;\n        uint256 quantity;\n    }\n\n    struct pesticide {\n        uint256 pesticide_id;\n        uint256 quantity;\n    }\n\n    struct item_info {\n        uint256 item_id;\n        string item_name;\n        string item_description;\n    }\n\n    struct fertilizer_info {\n        uint256 fertilizer_id;\n        string fertilizer_name;\n        string fertilizer_description;\n    }\n\n    struct pesticide_info {\n        uint256 pesticide_id;\n        string pesticide_name;\n        string pesticide_description;\n    }\n\n    struct productive_activity {\n        uint256 activity_id;\n        string activity_name;\n        string activity_type;\n        uint256 land_id;\n        date completed_date;\n        item[] items;\n        fertilizer[] fertilizers;\n        pesticide[] pesticides;\n    }\n\n    struct harvesting_activity {\n        uint256 activity_id;\n        string activity_name;\n        string activity_type;\n        uint256 land_id;\n        date completed_date;\n        uint256 quantity;\n        string unit;\n        item[] items;\n    }\n\n    struct inspecting_activity {\n        uint256 activity_id;\n        string activity_name;\n        string activity_type;\n        uint256 land_id;\n        date completed_date;\n        uint256 brix_point;\n        uint256 moisture;\n        uint256 temperature;\n        uint256 humidity;\n        GTKitColor test_gt_kit_color;\n        uint256 quantity;\n        string unit;\n        uint256 percent_issue;\n        string issue;\n    }\n\n    struct packaging_activity {\n        uint256 activity_id;\n        string activity_name;\n        string activity_type;\n        uint256 land_id;\n        date completed_date;\n        item[] items;\n        uint256 quantity;\n        string unit;\n    }\n\n    struct PlanBatch {\n        uint256 plan_id;\n        string seed_name;\n        uint256 yield;\n        string unit;\n        date start_date;\n        date end_date;\n        item_info[] items;\n        fertilizer_info[] fertilizers;\n        pesticide_info[] pesticides;\n        productive_activity[] productive_activities;\n        harvesting_activity[] harvesting_activities;\n        inspecting_activity[] inspecting_activities;\n        packaging_activity[] packaging_activities;\n        PlanStatus status;\n    }\n}\n"
+    },
+    "contracts/supply-chain/PlanRegistry.sol": {
+      "content": "// SPDX-License-Identifier: GPL-3.0\npragma solidity ^0.8.0;\nimport \"../interfaces/IPlan.sol\";\n\ncontract PlanRegistry is IPlanRegistry {\n    mapping(uint256 => PlanBatch) private plans;\n    uint256 private planCounter;\n\n    event PlanCreated(uint256 indexed planId);\n    event PlanUpdated(uint256 indexed planId);\n\n    // Constructor\n    constructor() {\n        planCounter = 0;\n    }\n\n    function createPlan(\n        string memory _seedName,\n        uint256 _yield,\n        string memory _unit,\n        date memory _startDate,\n        date memory _endDate\n    ) external returns (uint256) {\n        planCounter++;\n\n        PlanBatch storage newPlan = plans[planCounter];\n\n        newPlan.plan_id = planCounter;\n        newPlan.seed_name = _seedName;\n        newPlan.yield = _yield;\n        newPlan.unit = _unit;\n        newPlan.start_date = _startDate;\n        newPlan.end_date = _endDate;\n        newPlan.status = PlanStatus.InProgress;\n        emit PlanCreated(planCounter);\n        return planCounter;\n    }\n\n    function addItemInfo(\n        uint256 _planId,\n        uint256 _itemId,\n        string memory _itemName,\n        string memory _itemDescription\n    ) external {\n        require(_planId <= planCounter && _planId > 0, \"Invalid plan ID\");\n\n        item_info memory newItem = item_info({\n            item_id: _itemId,\n            item_name: _itemName,\n            item_description: _itemDescription\n        });\n\n        plans[_planId].items.push(newItem);\n    }\n\n    function addFertilizerInfo(\n        uint256 _planId,\n        uint256 _fertilizerId,\n        string memory _fertilizerName,\n        string memory _fertilizerDescription\n    ) external {\n        require(_planId <= planCounter && _planId > 0, \"Invalid plan ID\");\n\n        fertilizer_info memory newFertilizer = fertilizer_info({\n            fertilizer_id: _fertilizerId,\n            fertilizer_name: _fertilizerName,\n            fertilizer_description: _fertilizerDescription\n        });\n\n        plans[_planId].fertilizers.push(newFertilizer);\n    }\n\n    function getPlan(uint256 _planId) external view returns (PlanBatch memory) {\n        require(_planId <= planCounter && _planId > 0, \"Invalid plan ID\");\n        return plans[_planId];\n    }\n}\n"
+    }
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": true,
+      "runs": 128
+    },
+    "viaIR": false,
+    "evmVersion": "paris",
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode",
+          "evm.deployedBytecode",
+          "evm.methodIdentifiers",
+          "metadata",
+          "storageLayout",
+          "devdoc",
+          "userdoc",
+          "evm.gasEstimates"
+        ],
+        "": [
+          "ast"
+        ]
+      }
+    },
+    "metadata": {
+      "useLiteralContent": true
+    }
+  }
+}
