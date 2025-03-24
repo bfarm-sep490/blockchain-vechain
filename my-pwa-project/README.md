@@ -67,3 +67,6 @@ Using Privy's embedded wallet to sign messages, send transactions (using viem!),
 #### [`pages/load-assets.tsx`](pages/load-assets.tsx)
 
 An example of a page you might have in your PWA to allow users to connect an external wallet, from which they can transfer assets to their embedded wallet.
+
+npx hardhat run scripts/init-data.ts --network <tên_mạng>
+npx hardhat deploy --network vechain_testnet --tags PlanManagement,TradeManagement

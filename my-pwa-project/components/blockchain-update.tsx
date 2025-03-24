@@ -1,21 +1,21 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useVeChainAccount } from '@/lib/useVeChainAccount';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { clauseBuilder, FunctionFragment } from '@vechain/sdk-core';
 
 const BlockchainUpdate = () => {
-  const { thor, sendTransaction, accountFactory } = useVeChainAccount();
-  
+  const { sendTransaction, accountFactory } = useVeChainAccount();
+
   // Farm States
   const [farmName, setFarmName] = useState('');
   const [farmLocation, setFarmLocation] = useState('');
   const [farmCertifications, setFarmCertifications] = useState('');
-  
+
   // Product States
-  const [farmId, setFarmId] = useState('');
+	const [farmId, setFarmId] = useState('');
+	const [taskId, setTaskId] = useState('');
   const [productType, setProductType] = useState('');
   const [quantity, setQuantity] = useState('');
   const [unit, setUnit] = useState('');
@@ -34,7 +34,7 @@ const BlockchainUpdate = () => {
 
     try {
       const certifications = farmCertifications.split(',').map(cert => cert.trim());
-      
+
       await sendTransaction({
         to: FARM_REGISTRY_ADDRESS,
         value: 0,
@@ -51,14 +51,14 @@ const BlockchainUpdate = () => {
             outputs: [{ type: 'uint256' }]
           }],
           functionName: 'registerFarm',
-          args: [accountFactory, farmName, farmLocation, certifications] 
+          args: [accountFactory, farmName, farmLocation, certifications]
         }
       });
 
       setFarmName('');
       setFarmLocation('');
       setFarmCertifications('');
-      
+
       alert('Farm registered successfully!');
     } catch (error) {
       console.error('Error registering farm:', error);
@@ -74,7 +74,7 @@ const BlockchainUpdate = () => {
 
     try {
       const certifications = productCertifications.split(',').map(cert => cert.trim());
-      
+
       const productBatch = {
         farmId: BigInt(farmId),
         productType,
@@ -83,7 +83,7 @@ const BlockchainUpdate = () => {
         harvestDate: BigInt(new Date(harvestDate).getTime() / 1000),
         certifications,
         additionalInfo,
-        status: 0, 
+        status: 0,
         supplyChainActors: []
       };
 
@@ -115,7 +115,8 @@ const BlockchainUpdate = () => {
         }
       });
 
-      // Clear form
+			// Clear form
+			setTaskId('');
       setFarmId('');
       setProductType('');
       setQuantity('');
@@ -123,7 +124,7 @@ const BlockchainUpdate = () => {
       setHarvestDate('');
       setProductCertifications('');
       setAdditionalInfo('');
-      
+
       alert('Product created successfully!');
     } catch (error) {
       console.error('Error creating product:', error);
@@ -138,7 +139,7 @@ const BlockchainUpdate = () => {
           Please connect your VeChain wallet to continue
         </div>
       )}
-      
+
       <Card>
         <CardHeader>
           <CardTitle>Register Farm</CardTitle>
@@ -192,6 +193,16 @@ const BlockchainUpdate = () => {
                 value={farmId}
                 onChange={(e) => setFarmId(e.target.value)}
                 placeholder="Enter farm ID"
+              />
+						</div>
+						<div>
+              <Label htmlFor="taskId">Task ID</Label>
+              <Input
+                id="taskId"
+                type="number"
+                value={taskId}
+                onChange={(e) => setTaskId(e.target.value)}
+                placeholder="Enter taskId ID"
               />
             </div>
             <div>
