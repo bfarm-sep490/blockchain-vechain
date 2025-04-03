@@ -4,65 +4,117 @@ pragma solidity ^0.8.0;
 import "../interfaces/IPlanManagement.sol";
 
 contract PlanManagement is IPlanManagement {
-    mapping(uint => Plan) private plans;
-    mapping(uint => CaringTaskSummary) public caring_task_summaries;
-    mapping(uint => HarvestingTaskSummary) public harvesting_task_summaries;
-    mapping(uint => PackagingTaskSummary) public packaging_task_summaries;
+    bool public isInitialized;
 
-    uint private nextPlanId = 1;
+    PlanData public plan;
+    TaskMilestone[] public tasks;
+    InspectionMilestone[] public inspections;
+
+    constructor() {
+        isInitialized = false;
+    }
+
+    modifier notInitialized() {
+        require(!isInitialized, "Plan already initialized");
+        _;
+    }
 
     function createPlan(
-        uint plant_id,
-        uint yield_id,
-        uint expert_id,
-        string memory plan_name,
-        uint start_date,
-        uint end_date,
-        uint estimated_product,
-        string memory qr_code
-    ) external override returns (uint) {
-        uint planId = nextPlanId++;
-
-        plans[planId] = Plan({
-            id: planId,
-            plant_id: plant_id,
-            yield_id: yield_id,
-            expert_id: expert_id,
-            plan_name: plan_name,
-            start_date: start_date,
-            end_date: end_date,
-            status: "created",
-            estimated_product: estimated_product,
-            qr_code: qr_code,
-            is_approved: false,
-            caring_task_count: 0,
-            harvesting_task_count: 0,
-            packaging_task_count: 0
+        uint256 _planId,
+        uint256 _plantId,
+        uint256 _yieldId,
+        uint256 _expertId,
+        string calldata _planName,
+        uint256 _startDate,
+        uint256 _endDate,
+        uint256 _estimatedProduct,
+        string calldata _estimatedUnit,
+        string calldata _status
+    ) external override notInitialized returns (uint256) {
+        plan = PlanData({
+            planId: _planId,
+            plantId: _plantId,
+            yieldId: _yieldId,
+            expertId: _expertId,
+            planName: _planName,
+            startDate: _startDate,
+            endDate: _endDate,
+            estimatedProduct: _estimatedProduct,
+            estimatedUnit: _estimatedUnit,
+            status: _status
         });
+        isInitialized = true;
 
-        emit PlanCreated(planId, plan_name);
-        return planId;
+        emit PlanCreated(_planId, _planName);
+        return _planId;
     }
 
-    function updatePlanStatus(
-        uint plan_id,
-        string memory status
+    function addTaskMilestone(
+        uint256 _taskId,
+        string calldata _taskType,
+        string calldata _status,
+        bytes32 _dataHash
     ) external override {
-        require(plans[plan_id].id != 0, "Plan does not exist");
-        plans[plan_id].status = status;
-        emit PlanUpdated(plan_id);
+        require(isInitialized, "Plan not initialized");
+        tasks.push(
+            TaskMilestone({
+                taskId: _taskId,
+                taskType: _taskType,
+                timestamp: block.timestamp,
+                status: _status,
+                dataHash: _dataHash
+            })
+        );
+
+        emit TaskMilestoneAdded(
+            plan.planId,
+            _taskId,
+            _taskType,
+            block.timestamp
+        );
     }
 
-    function approvePlan(uint plan_id) external override {
-        require(plans[plan_id].id != 0, "Plan does not exist");
-        plans[plan_id].is_approved = true;
-        emit PlanUpdated(plan_id);
+    function addInspectionMilestone(
+        uint256 _inspectionId,
+        uint8 _inspectionType,
+        bytes32 _dataHash
+    ) external override {
+        require(isInitialized, "Plan not initialized");
+        require(_inspectionType <= 2, "Invalid inspection type");
+        inspections.push(
+            InspectionMilestone({
+                inspectionId: _inspectionId,
+                timestamp: block.timestamp,
+                inspectionType: InspectionType(_inspectionType),
+                dataHash: _dataHash
+            })
+        );
+
+        emit InspectionMilestoneAdded(
+            plan.planId,
+            _inspectionId,
+            _inspectionType,
+            block.timestamp
+        );
     }
 
-    function getPlan(
-        uint plan_id
-    ) external view override returns (Plan memory) {
-        require(plans[plan_id].id != 0, "Plan does not exist");
-        return plans[plan_id];
+    function getPlanInfo()
+        external
+        view
+        override
+        returns (
+            PlanData memory planData,
+            TaskMilestone[] memory taskList,
+            InspectionMilestone[] memory inspectionList
+        )
+    {
+        require(isInitialized, "Plan not initialized");
+        return (plan, tasks, inspections);
+    }
+
+    function updateStatus(string calldata _status) external override {
+        require(isInitialized, "Plan not initialized");
+        plan.status = _status;
+        emit PlanUpdated(plan.planId, _status);
     }
 }

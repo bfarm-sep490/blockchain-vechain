@@ -461,3 +461,173 @@ Trong bài viết này, chúng ta đã tạo cách hỗ trợ VeChain trong dự
 Dự án mẫu có thể tìm thấy tại: [docs-pwa-privy-account-abstraction-my-pwa-project](https://github.com/vechain-energy/docs-pwa-privy-account-abstraction-my-pwa-project). 
 
 Bạn có thể phát triển thêm dựa trên dự án mẫu này hoặc tùy chỉnh quy trình của riêng bạn.
+
+
+```
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract PlanContract {
+    address public owner;
+    bool public isInitialized; // Đánh dấu contract đã được khởi tạo chưa
+
+    // Enum cho loại kiểm định (thay cho canHarvest)
+    enum InspectionType {
+        Type1, // 0
+        Type2, // 1
+        Type3  // 2
+    }
+
+    // Dữ liệu của Plan (bỏ qrCodeHash, createdAt, isApproved)
+    struct PlanData {
+        uint256 planId;
+        uint256 plantId;
+        uint256 yieldId;
+        uint256 expertId;
+        string planName;
+        uint256 startDate;
+        uint256 endDate;
+        uint256 estimatedProduct;
+        string estimatedUnit;
+        string status;
+    }
+
+    // Dữ liệu của Task Milestone
+    struct TaskMilestone {
+        uint256 taskId;
+        string taskType;
+        uint256 timestamp;
+        string status;
+        bytes32 dataHash; // Hash của dữ liệu chi tiết lưu off-chain (Web2), bao gồm:
+                          // - Mô tả task (description)
+                          // - Thông tin nông dân (farmerId, farmerName)
+                          // - Danh sách phân bón (fertilizerId, name, quantity, unit)
+                          // - Danh sách thuốc trừ sâu (pesticideId, name, quantity, unit)
+                          // - Danh sách vật dụng (itemId, name, quantity, unit)
+                          // - Thời gian thực hiện trên Web2 (timestamp)
+    }
+
+    // Dữ liệu của Inspection Milestone
+    struct InspectionMilestone {
+        uint256 inspectionId;
+        uint256 timestamp;
+        InspectionType inspectionType; // Loại kiểm định: 1, 2, 3
+        bytes32 dataHash; // Hash của dữ liệu chi tiết lưu off-chain (Web2), bao gồm:
+                          // - Mô tả kiểm định (description)
+                          // - Thông tin người kiểm định (inspectorId, inspectorName)
+                          // - Kết quả chi tiết (Arsen, Ecoli, Nitrat, v.v.)
+                          // - Số lượng mẫu (numberOfSample)
+                          // - Trọng lượng mẫu (sampleWeight)
+                          // - Thời gian thực hiện trên Web2 (timestamp)
+    }
+
+    PlanData public plan; // Thông tin Plan được lưu trực tiếp
+    TaskMilestone[] public tasks; // Danh sách TaskMilestone của Plan
+    InspectionMilestone[] public inspections; // Danh sách InspectionMilestone của Plan
+
+    constructor() {
+        owner = msg.sender;
+        isInitialized = false; // Chưa khởi tạo Plan
+    }
+
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Only owner can call this function");
+        _;
+    }
+
+    modifier notInitialized() {
+        require(!isInitialized, "Plan already initialized");
+        _;
+    }
+
+    // Tạo Plan (bỏ qrCodeHash, createdAt, isApproved)
+    function createPlan(
+        uint256 _planId,
+        uint256 _plantId,
+        uint256 _yieldId,
+        uint256 _expertId,
+        string calldata _planName,
+        uint256 _startDate,
+        uint256 _endDate,
+        uint256 _estimatedProduct,
+        string calldata _estimatedUnit,
+        string calldata _status
+    ) external onlyOwner notInitialized {
+        plan = PlanData({
+            planId: _planId,
+            plantId: _plantId,
+            yieldId: _yieldId,
+            expertId: _expertId,
+            planName: _planName,
+            startDate: _startDate,
+            endDate: _endDate,
+            estimatedProduct: _estimatedProduct,
+            estimatedUnit: _estimatedUnit,
+            status: _status
+        });
+        isInitialized = true;
+
+        emit PlanCreated(_planId, _planName);
+    }
+
+    // Thêm Task Milestone
+    function addTaskMilestone(
+        uint256 _taskId,
+        string calldata _taskType,
+        string calldata _status,
+        bytes32 _dataHash
+    ) external onlyOwner {
+        require(isInitialized, "Plan not initialized");
+        tasks.push(TaskMilestone({
+            taskId: _taskId,
+            taskType: _taskType,
+            timestamp: block.timestamp,
+            status: _status,
+            dataHash: _dataHash
+        }));
+
+        emit TaskMilestoneAdded(plan.planId, _taskId, _taskType, block.timestamp);
+    }
+
+    // Thêm Inspection Milestone
+    function addInspectionMilestone(
+        uint256 _inspectionId,
+        uint8 _inspectionType, // 0 = Type1, 1 = Type2, 2 = Type3
+        bytes32 _dataHash
+    ) external onlyOwner {
+        require(isInitialized, "Plan not initialized");
+        require(_inspectionType <= 2, "Invalid inspection type"); // Giới hạn giá trị 0, 1, 2
+        inspections.push(InspectionMilestone({
+            inspectionId: _inspectionId,
+            timestamp: block.timestamp,
+            inspectionType: InspectionType(_inspectionType),
+            dataHash: _dataHash
+        }));
+
+        emit InspectionMilestoneAdded(plan.planId, _inspectionId, _inspectionType, block.timestamp);
+    }
+
+    // Truy xuất toàn bộ thông tin Plan (PlanData, Tasks, Inspections)
+    function getPlanInfo() external view returns (
+        PlanData memory planData,
+        TaskMilestone[] memory taskList,
+        InspectionMilestone[] memory inspectionList
+    ) {
+        require(isInitialized, "Plan not initialized");
+        return (plan, tasks, inspections);
+    }
+
+    // Cập nhật trạng thái Plan
+    function updateStatus(string calldata _status) external onlyOwner {
+        require(isInitialized, "Plan not initialized");
+        plan.status = _status;
+
+        emit PlanUpdated(plan.planId, _status);
+    }
+
+    event PlanCreated(uint256 indexed planId, string planName);
+    event PlanUpdated(uint256 indexed planId, string status);
+    event TaskMilestoneAdded(uint256 indexed planId, uint256 taskId, string taskType, uint256 timestamp);
+    event InspectionMilestoneAdded(uint256 indexed planId, uint256 inspectionId, uint256 inspectionType, uint256 timestamp);
+}
+```

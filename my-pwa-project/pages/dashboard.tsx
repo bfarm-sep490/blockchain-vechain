@@ -4,8 +4,6 @@ import { usePrivy } from '@privy-io/react-auth'
 import { links } from '@/lib/links'
 import BlockchainDataDisplay from '@/components/blockchain-data-display'
 import BlockchainUpdate from '@/components/blockchain-update'
-import PlanDataDisplay from '@/components/plan-data-display'
-
 const Dashboard = () => {
 	// You can also import other linking methods, like linkWallet, linkEmail, linkDiscord, etc.
 	const { user, linkPhone, linkGoogle, linkApple } = usePrivy()
@@ -40,7 +38,6 @@ const Dashboard = () => {
 				Supply Chain App
 				</p>
 				<BlockchainDataDisplay />
-				<PlanDataDisplay />
 			</Section>
 			<Section>
 				<p className='text-md mt-8 font-bold uppercase text-gray-700'>
