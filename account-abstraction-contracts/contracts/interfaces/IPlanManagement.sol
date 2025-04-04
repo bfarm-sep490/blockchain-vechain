@@ -26,14 +26,14 @@ interface IPlanManagement {
         string taskType;
         uint256 timestamp;
         string status;
-        bytes32 dataHash;
+        string data;
     }
 
     struct InspectionMilestone {
         uint256 inspectionId;
         uint256 timestamp;
         InspectionType inspectionType;
-        bytes32 dataHash;
+        string data;
     }
 
     event PlanCreated(uint256 indexed planId, string planName);
@@ -68,13 +68,13 @@ interface IPlanManagement {
         uint256 _taskId,
         string calldata _taskType,
         string calldata _status,
-        bytes32 _dataHash
+        string calldata _data
     ) external;
 
     function addInspectionMilestone(
         uint256 _inspectionId,
         uint8 _inspectionType,
-        bytes32 _dataHash
+        string calldata _data
     ) external;
 
     function getPlanInfo()

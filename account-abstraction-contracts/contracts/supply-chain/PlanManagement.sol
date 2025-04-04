@@ -53,16 +53,17 @@ contract PlanManagement is IPlanManagement {
         uint256 _taskId,
         string calldata _taskType,
         string calldata _status,
-        bytes32 _dataHash
+        string calldata _data
     ) external override {
         require(isInitialized, "Plan not initialized");
+
         tasks.push(
             TaskMilestone({
                 taskId: _taskId,
                 taskType: _taskType,
                 timestamp: block.timestamp,
                 status: _status,
-                dataHash: _dataHash
+                data: _data
             })
         );
 
@@ -77,16 +78,17 @@ contract PlanManagement is IPlanManagement {
     function addInspectionMilestone(
         uint256 _inspectionId,
         uint8 _inspectionType,
-        bytes32 _dataHash
+        string calldata _data
     ) external override {
         require(isInitialized, "Plan not initialized");
         require(_inspectionType <= 2, "Invalid inspection type");
+
         inspections.push(
             InspectionMilestone({
                 inspectionId: _inspectionId,
                 timestamp: block.timestamp,
                 inspectionType: InspectionType(_inspectionType),
-                dataHash: _dataHash
+                data: _data
             })
         );
 

@@ -35,105 +35,27 @@ async function main() {
                 taskId: 1,
                 taskType: "Chuẩn bị đất",
                 status: "Hoàn thành",
-                dataHash: ethers.keccak256(ethers.toUtf8Bytes(JSON.stringify({
-                    description: "Chuẩn bị đất trồng lúa mùa 2024",
-                    farmerInfo: {
-                        farmerId: "F001",
-                        farmerName: "Nguyễn Văn A"
-                    },
-                    fertilizers: [
-                        {
-                            fertilizerId: "FT001",
-                            name: "Phân NPK",
-                            quantity: 50,
-                            unit: "kg"
-                        }
-                    ],
-                    pesticides: [
-                        {
-                            pesticideId: "PS001",
-                            name: "Thuốc trừ sâu sinh học",
-                            quantity: 2,
-                            unit: "lít"
-                        }
-                    ],
-                    items: [
-                        {
-                            itemId: "IT001",
-                            name: "Máy cày",
-                            quantity: 1,
-                            unit: "cái"
-                        }
-                    ],
-                    web2Timestamp: Math.floor(Date.now() / 1000)
-                })))
+                data: JSON.stringify({
+                    d: "Chuẩn bị đất trồng lúa mùa 2024",
+                    f: { id: "F001", n: "Nguyễn Văn A" },
+                    ft: [{ id: "FT001", n: "Phân NPK", q: 50, u: "kg" }],
+                    p: [{ id: "PS001", n: "Thuốc trừ sâu sinh học", q: 2, u: "lít" }],
+                    i: [{ id: "IT001", n: "Máy cày", q: 1, u: "cái" }],
+                    t: Math.floor(Date.now() / 1000)
+                })
             },
             {
                 taskId: 2,
                 taskType: "Gieo hạt",
                 status: "Đang thực hiện",
-                dataHash: ethers.keccak256(ethers.toUtf8Bytes(JSON.stringify({
-                    description: "Gieo hạt giống lúa mùa 2024",
-                    farmerInfo: {
-                        farmerId: "F001",
-                        farmerName: "Nguyễn Văn A"
-                    },
-                    fertilizers: [
-                        {
-                            fertilizerId: "FT002",
-                            name: "Phân hữu cơ",
-                            quantity: 100,
-                            unit: "kg"
-                        }
-                    ],
-                    pesticides: [],
-                    items: [
-                        {
-                            itemId: "IT002",
-                            name: "Máy gieo hạt",
-                            quantity: 1,
-                            unit: "cái"
-                        }
-                    ],
-                    web2Timestamp: Math.floor(Date.now() / 1000)
-                })))
-            },
-            {
-                taskId: 3,
-                taskType: "Chăm sóc",
-                status: "Chưa bắt đầu",
-                dataHash: ethers.keccak256(ethers.toUtf8Bytes(JSON.stringify({
-                    description: "Chăm sóc lúa mùa 2024",
-                    farmerInfo: {
-                        farmerId: "F001",
-                        farmerName: "Nguyễn Văn A"
-                    },
-                    fertilizers: [
-                        {
-                            fertilizerId: "FT003",
-                            name: "Phân bón lá",
-                            quantity: 5,
-                            unit: "lít"
-                        }
-                    ],
-                    pesticides: [
-                        {
-                            pesticideId: "PS002",
-                            name: "Thuốc trừ cỏ",
-                            quantity: 1,
-                            unit: "lít"
-                        }
-                    ],
-                    items: [
-                        {
-                            itemId: "IT003",
-                            name: "Bình phun",
-                            quantity: 2,
-                            unit: "cái"
-                        }
-                    ],
-                    web2Timestamp: Math.floor(Date.now() / 1000)
-                })))
+                data: JSON.stringify({
+                    d: "Gieo hạt giống lúa mùa 2024",
+                    f: { id: "F001", n: "Nguyễn Văn A" },
+                    ft: [{ id: "FT002", n: "Phân hữu cơ", q: 100, u: "kg" }],
+                    p: [],
+                    i: [{ id: "IT002", n: "Máy gieo hạt", q: 1, u: "cái" }],
+                    t: Math.floor(Date.now() / 1000)
+                })
             }
         ];
 
@@ -142,7 +64,8 @@ async function main() {
                 task.taskId,
                 task.taskType,
                 task.status,
-                task.dataHash
+                task.data,
+                { gasLimit: 1000000 }
             );
             await tx2.wait();
         }
@@ -153,50 +76,13 @@ async function main() {
             {
                 inspectionId: 1,
                 inspectionType: 0,
-                dataHash: ethers.keccak256(ethers.toUtf8Bytes(JSON.stringify({
-                    description: "Kiểm tra chất lượng đất trước khi gieo hạt",
-                    inspectorInfo: {
-                        inspectorId: "I001",
-                        inspectorName: "Trần Thị B"
-                    },
-                    results: {
-                        arsenic: 0.05,
-                        ecoli: 0,
-                        nitrate: 10,
-                        pH: 6.5,
-                        organicMatter: 2.5
-                    },
-                    sampleInfo: {
-                        numberOfSample: 5,
-                        sampleWeight: 1000,
-                        unit: "gram"
-                    },
-                    web2Timestamp: Math.floor(Date.now() / 1000)
-                })))
-            },
-            {
-                inspectionId: 2,
-                inspectionType: 1, // Type2
-                dataHash: ethers.keccak256(ethers.toUtf8Bytes(JSON.stringify({
-                    description: "Kiểm tra chất lượng hạt giống",
-                    inspectorInfo: {
-                        inspectorId: "I002",
-                        inspectorName: "Lê Văn C"
-                    },
-                    results: {
-                        germinationRate: 95,
-                        moisture: 12,
-                        purity: 99,
-                        weight: 25,
-                        unit: "gram/1000 hạt"
-                    },
-                    sampleInfo: {
-                        numberOfSample: 3,
-                        sampleWeight: 500,
-                        unit: "gram"
-                    },
-                    web2Timestamp: Math.floor(Date.now() / 1000)
-                })))
+                data: JSON.stringify({
+                    d: "Kiểm tra chất lượng đất trước khi gieo hạt",
+                    i: { id: "I001", n: "Trần Thị B" },
+                    r: { a: 0.05, e: 0, n: 10, p: 6.5, o: 2.5 },
+                    s: { n: 5, w: 1000, u: "gram" },
+                    t: Math.floor(Date.now() / 1000)
+                })
             }
         ];
 
@@ -204,7 +90,8 @@ async function main() {
             const tx3 = await planManagement.addInspectionMilestone(
                 inspection.inspectionId,
                 inspection.inspectionType,
-                inspection.dataHash
+                inspection.data,
+                { gasLimit: 1000000 }
             );
             await tx3.wait();
         }
