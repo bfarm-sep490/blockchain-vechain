@@ -2,64 +2,89 @@
 pragma solidity ^0.8.0;
 
 interface IPlanManagement {
-    struct Plan {
-        uint id;
-        uint plant_id;
-        uint yield_id;
-        uint expert_id;
-        string plan_name;
-        uint start_date;
-        uint end_date;
+    enum InspectionType {
+        Type1,
+        Type2,
+        Type3
+    }
+
+    struct PlanData {
+        uint256 planId;
+        uint256 plantId;
+        uint256 yieldId;
+        uint256 expertId;
+        string planName;
+        uint256 startDate;
+        uint256 endDate;
+        uint256 estimatedProduct;
+        string estimatedUnit;
         string status;
-        uint estimated_product;
-        string qr_code;
-        bool is_approved;
-        uint caring_task_count;
-        uint harvesting_task_count;
-        uint packaging_task_count;
     }
 
-    struct CaringTaskSummary {
-        uint plan_id;
-        uint total_tasks;
-        string overall_status;
-        uint last_updated;
+    struct TaskMilestone {
+        uint256 taskId;
+        string taskType;
+        uint256 timestamp;
+        string status;
+        string data;
     }
 
-    struct HarvestingTaskSummary {
-        uint plan_id;
-        uint total_tasks;
-        string overall_status;
-        uint total_harvested_quantity;
-        uint last_updated;
+    struct InspectionMilestone {
+        uint256 inspectionId;
+        uint256 timestamp;
+        InspectionType inspectionType;
+        string data;
     }
 
-    struct PackagingTaskSummary {
-        uint plan_id;
-        uint total_tasks;
-        uint total_packed_quantity;
-        string overall_status;
-        uint last_updated;
-    }
-
-    event PlanCreated(uint indexed id, string plan_name);
-    event PlanUpdated(uint indexed id);
-    event TaskSummaryUpdated(uint indexed plan_id, string task_type);
+    event PlanCreated(uint256 indexed planId, string planName);
+    event PlanUpdated(uint256 indexed planId, string status);
+    event TaskMilestoneAdded(
+        uint256 indexed planId,
+        uint256 taskId,
+        string taskType,
+        uint256 timestamp
+    );
+    event InspectionMilestoneAdded(
+        uint256 indexed planId,
+        uint256 inspectionId,
+        uint256 inspectionType,
+        uint256 timestamp
+    );
 
     function createPlan(
-        uint plant_id,
-        uint yield_id,
-        uint expert_id,
-        string memory plan_name,
-        uint start_date,
-        uint end_date,
-        uint estimated_product,
-        string memory qr_code
-    ) external returns (uint);
+        uint256 _planId,
+        uint256 _plantId,
+        uint256 _yieldId,
+        uint256 _expertId,
+        string calldata _planName,
+        uint256 _startDate,
+        uint256 _endDate,
+        uint256 _estimatedProduct,
+        string calldata _estimatedUnit,
+        string calldata _status
+    ) external returns (uint256);
 
-    function updatePlanStatus(uint plan_id, string memory status) external;
+    function addTaskMilestone(
+        uint256 _taskId,
+        string calldata _taskType,
+        string calldata _status,
+        string calldata _data
+    ) external;
 
-    function approvePlan(uint plan_id) external;
+    function addInspectionMilestone(
+        uint256 _inspectionId,
+        uint8 _inspectionType,
+        string calldata _data
+    ) external;
 
-    function getPlan(uint plan_id) external view returns (Plan memory);
+    function getPlanInfo()
+        external
+        view
+        returns (
+            PlanData memory planData,
+            TaskMilestone[] memory taskList,
+            InspectionMilestone[] memory inspectionList
+        );
+
+    function updateStatus(string calldata _status) external;
 }

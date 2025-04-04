@@ -461,3 +461,4 @@ Trong bài viết này, chúng ta đã tạo cách hỗ trợ VeChain trong dự
 Dự án mẫu có thể tìm thấy tại: [docs-pwa-privy-account-abstraction-my-pwa-project](https://github.com/vechain-energy/docs-pwa-privy-account-abstraction-my-pwa-project). 
 
 Bạn có thể phát triển thêm dựa trên dự án mẫu này hoặc tùy chỉnh quy trình của riêng bạn.
+npx hardhat run deploy/5_mock_data.ts --network vechain_testnet

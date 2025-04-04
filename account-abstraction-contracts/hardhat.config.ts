@@ -32,9 +32,9 @@ const config = {
         settings: {
           optimizer: {
             enabled: true,
-            runs: 128,
+            runs: 200,
           },
-          viaIR: false
+          viaIR: true
         },
       }
     ],
