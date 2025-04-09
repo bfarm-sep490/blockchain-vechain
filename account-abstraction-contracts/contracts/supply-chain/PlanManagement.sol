@@ -77,17 +77,16 @@ contract PlanManagement is IPlanManagement {
 
     function addInspectionMilestone(
         uint256 _inspectionId,
-        uint8 _inspectionType,
+        string calldata _inspectionType,
         string calldata _data
     ) external override {
         require(isInitialized, "Plan not initialized");
-        require(_inspectionType <= 2, "Invalid inspection type");
 
         inspections.push(
             InspectionMilestone({
                 inspectionId: _inspectionId,
                 timestamp: block.timestamp,
-                inspectionType: InspectionType(_inspectionType),
+                inspectionType: _inspectionType,
                 data: _data
             })
         );

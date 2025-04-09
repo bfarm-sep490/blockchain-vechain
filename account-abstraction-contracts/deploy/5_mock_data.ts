@@ -75,7 +75,7 @@ async function main() {
         const inspections = [
             {
                 inspectionId: 1,
-                inspectionType: 0,
+                inspectionType: "Grade 1",
                 data: JSON.stringify({
                     d: "Kiểm tra chất lượng đất trước khi gieo hạt",
                     i: { id: "I001", n: "Trần Thị B" },

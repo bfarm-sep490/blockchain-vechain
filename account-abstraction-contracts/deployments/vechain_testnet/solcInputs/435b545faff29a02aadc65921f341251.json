@@ -1,0 +1,40 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "contracts/interfaces/IPlanManagement.sol": {
+      "content": "// SPDX-License-Identifier: GPL-3.0\npragma solidity ^0.8.0;\n\ninterface IPlanManagement {\n    struct PlanData {\n        uint256 planId;\n        uint256 plantId;\n        uint256 yieldId;\n        uint256 expertId;\n        string planName;\n        uint256 startDate;\n        uint256 endDate;\n        uint256 estimatedProduct;\n        string estimatedUnit;\n        string status;\n    }\n\n    struct TaskMilestone {\n        uint256 taskId;\n        string taskType;\n        uint256 timestamp;\n        string status;\n        string data;\n    }\n\n    struct InspectionMilestone {\n        uint256 inspectionId;\n        uint256 timestamp;\n        string inspectionType;\n        string data;\n    }\n\n    event PlanCreated(uint256 indexed planId, string planName);\n    event PlanUpdated(uint256 indexed planId, string status);\n    event TaskMilestoneAdded(\n        uint256 indexed planId,\n        uint256 taskId,\n        string taskType,\n        uint256 timestamp\n    );\n    event InspectionMilestoneAdded(\n        uint256 indexed planId,\n        uint256 inspectionId,\n        string inspectionType,\n        uint256 timestamp\n    );\n\n    function createPlan(\n        uint256 _planId,\n        uint256 _plantId,\n        uint256 _yieldId,\n        uint256 _expertId,\n        string calldata _planName,\n        uint256 _startDate,\n        uint256 _endDate,\n        uint256 _estimatedProduct,\n        string calldata _estimatedUnit,\n        string calldata _status\n    ) external returns (uint256);\n\n    function addTaskMilestone(\n        uint256 _taskId,\n        string calldata _taskType,\n        string calldata _status,\n        string calldata _data\n    ) external;\n\n    function addInspectionMilestone(\n        uint256 _inspectionId,\n        string calldata _inspectionType,\n        string calldata _data\n    ) external;\n\n    function getPlanInfo()\n        external\n        view\n        returns (\n            PlanData memory planData,\n            TaskMilestone[] memory taskList,\n            InspectionMilestone[] memory inspectionList\n        );\n\n    function updateStatus(string calldata _status) external;\n}\n"
+    },
+    "contracts/supply-chain/PlanManagement.sol": {
+      "content": "// SPDX-License-Identifier: GPL-3.0\npragma solidity ^0.8.0;\n\nimport \"../interfaces/IPlanManagement.sol\";\n\ncontract PlanManagement is IPlanManagement {\n    bool public isInitialized;\n\n    PlanData public plan;\n    TaskMilestone[] public tasks;\n    InspectionMilestone[] public inspections;\n\n    constructor() {\n        isInitialized = false;\n    }\n\n    modifier notInitialized() {\n        require(!isInitialized, \"Plan already initialized\");\n        _;\n    }\n\n    function createPlan(\n        uint256 _planId,\n        uint256 _plantId,\n        uint256 _yieldId,\n        uint256 _expertId,\n        string calldata _planName,\n        uint256 _startDate,\n        uint256 _endDate,\n        uint256 _estimatedProduct,\n        string calldata _estimatedUnit,\n        string calldata _status\n    ) external override notInitialized returns (uint256) {\n        plan = PlanData({\n            planId: _planId,\n            plantId: _plantId,\n            yieldId: _yieldId,\n            expertId: _expertId,\n            planName: _planName,\n            startDate: _startDate,\n            endDate: _endDate,\n            estimatedProduct: _estimatedProduct,\n            estimatedUnit: _estimatedUnit,\n            status: _status\n        });\n        isInitialized = true;\n\n        emit PlanCreated(_planId, _planName);\n        return _planId;\n    }\n\n    function addTaskMilestone(\n        uint256 _taskId,\n        string calldata _taskType,\n        string calldata _status,\n        string calldata _data\n    ) external override {\n        require(isInitialized, \"Plan not initialized\");\n\n        tasks.push(\n            TaskMilestone({\n                taskId: _taskId,\n                taskType: _taskType,\n                timestamp: block.timestamp,\n                status: _status,\n                data: _data\n            })\n        );\n\n        emit TaskMilestoneAdded(\n            plan.planId,\n            _taskId,\n            _taskType,\n            block.timestamp\n        );\n    }\n\n    function addInspectionMilestone(\n        uint256 _inspectionId,\n        string calldata _inspectionType,\n        string calldata _data\n    ) external override {\n        require(isInitialized, \"Plan not initialized\");\n\n        inspections.push(\n            InspectionMilestone({\n                inspectionId: _inspectionId,\n                timestamp: block.timestamp,\n                inspectionType: _inspectionType,\n                data: _data\n            })\n        );\n\n        emit InspectionMilestoneAdded(\n            plan.planId,\n            _inspectionId,\n            _inspectionType,\n            block.timestamp\n        );\n    }\n\n    function getPlanInfo()\n        external\n        view\n        override\n        returns (\n            PlanData memory planData,\n            TaskMilestone[] memory taskList,\n            InspectionMilestone[] memory inspectionList\n        )\n    {\n        require(isInitialized, \"Plan not initialized\");\n        return (plan, tasks, inspections);\n    }\n\n    function updateStatus(string calldata _status) external override {\n        require(isInitialized, \"Plan not initialized\");\n        plan.status = _status;\n        emit PlanUpdated(plan.planId, _status);\n    }\n}\n"
+    }
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": true,
+      "runs": 200
+    },
+    "viaIR": true,
+    "evmVersion": "paris",
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode",
+          "evm.deployedBytecode",
+          "evm.methodIdentifiers",
+          "metadata",
+          "storageLayout",
+          "devdoc",
+          "userdoc",
+          "evm.gasEstimates"
+        ],
+        "": [
+          "ast"
+        ]
+      }
+    },
+    "metadata": {
+      "useLiteralContent": true
+    }
+  }
+}

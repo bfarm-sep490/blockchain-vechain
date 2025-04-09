@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { useVeChainAccount } from '@/lib/useVeChainAccount'
 import { clauseBuilder, FunctionFragment } from '@vechain/sdk-core'
-import { ethers } from 'ethers'
 import MilestoneAdd from './MilestoneAdd'
 
 interface PlanData {
@@ -29,7 +28,7 @@ interface TaskMilestone {
 interface InspectionMilestone {
 	inspectionId: bigint
 	timestamp: bigint
-	inspectionType: number
+	inspectionType: string
 	data: string
 }
 
@@ -87,10 +86,11 @@ const BlockchainDataDisplay = () => {
 		taskList: TaskMilestone[],
 		inspectionList: InspectionMilestone[]
 	}[]>([])
+	console.log(plans)
 	const [loading, setLoading] = useState(true)
 	const { thor, address } = useVeChainAccount()
 
-	const PLAN_MANAGEMENT_ADDRESS = '0x4020af892540328fd9966e3a496129cc2a729a01'
+	const PLAN_MANAGEMENT_ADDRESS = '0xeedbc1b09c65fbbc25266b54cbc0d08c8196587b'
 
 	const loadBlockchainData = async () => {
 		try {
@@ -101,7 +101,7 @@ const BlockchainDataDisplay = () => {
 
 			const planResult = await thor.contracts.executeCall(
 				PLAN_MANAGEMENT_ADDRESS,
-				'function getPlanInfo() view returns (tuple(uint256 planId, uint256 plantId, uint256 yieldId, uint256 expertId, string planName, uint256 startDate, uint256 endDate, uint256 estimatedProduct, string estimatedUnit, string status) planData, tuple(uint256 taskId, string taskType, uint256 timestamp, string status, string data)[] taskList, tuple(uint256 inspectionId, uint256 timestamp, uint8 inspectionType, string data)[] inspectionList)' as unknown as FunctionFragment,
+				'function getPlanInfo() view returns (tuple(uint256 planId, uint256 plantId, uint256 yieldId, uint256 expertId, string planName, uint256 startDate, uint256 endDate, uint256 estimatedProduct, string estimatedUnit, string status) planData, tuple(uint256 taskId, string taskType, uint256 timestamp, string status, string data)[] taskList, tuple(uint256 inspectionId, uint256 timestamp, string inspectionType, string data)[] inspectionList)' as unknown as FunctionFragment,
 				[]
 			)
 			setPlans([{
@@ -288,7 +288,7 @@ const BlockchainDataDisplay = () => {
 												<li key={i} className="mb-4">
 													<div>
 														<span className="font-medium">
-															Loại	{getInspectionTypeString(inspection.inspectionType)}
+															{inspection.inspectionType}
 														</span>
 														<span className="text-gray-500 text-xs ml-2">
 															({new Date(Number(inspection.timestamp) * 1000).toLocaleDateString()})

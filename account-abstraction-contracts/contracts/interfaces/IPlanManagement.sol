@@ -2,12 +2,6 @@
 pragma solidity ^0.8.0;
 
 interface IPlanManagement {
-    enum InspectionType {
-        Type1,
-        Type2,
-        Type3
-    }
-
     struct PlanData {
         uint256 planId;
         uint256 plantId;
@@ -32,7 +26,7 @@ interface IPlanManagement {
     struct InspectionMilestone {
         uint256 inspectionId;
         uint256 timestamp;
-        InspectionType inspectionType;
+        string inspectionType;
         string data;
     }
 
@@ -47,7 +41,7 @@ interface IPlanManagement {
     event InspectionMilestoneAdded(
         uint256 indexed planId,
         uint256 inspectionId,
-        uint256 inspectionType,
+        string inspectionType,
         uint256 timestamp
     );
 
@@ -73,7 +67,7 @@ interface IPlanManagement {
 
     function addInspectionMilestone(
         uint256 _inspectionId,
-        uint8 _inspectionType,
+        string calldata _inspectionType,
         string calldata _data
     ) external;
 
